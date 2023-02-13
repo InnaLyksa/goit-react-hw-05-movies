@@ -81,10 +81,18 @@ export function App() {
     setPage(page => page + 1);
   };
 
+  const resetPictureData = () => {
+    setPictureData('');
+    setIsLoadingMore(false);
+  };
+
   return (
     <div>
       <Searchbar>
-        <SearchForm submitForm={handleSearchSubmit} />
+        <SearchForm
+          submitForm={handleSearchSubmit}
+          resetPictureData={resetPictureData}
+        />
       </Searchbar>
       {showModal && <Modal onClose={toggleModal} image={modalImg} />}
 
