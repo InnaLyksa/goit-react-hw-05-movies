@@ -1,62 +1,45 @@
 import PropTypes from 'prop-types';
-import { Component } from 'react';
+import { useState } from 'react';
 import { toast } from 'react-toastify';
 import { IconButton } from '../IconButton/IconButton';
 import { Form, SearchInput } from './SearchForm.styled';
 import { ReactComponent as LoupeIcon } from '../../icons/loupe.svg';
 
-export class SearchForm extends Component {
-  state = {
-    searchQuery: '',
+export function SearchForm({ submitForm }) {
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const handleOnChange = ({ target: { value } }) => {
+    setSearchQuery(value.toLowerCase());
   };
 
-  handleOnChange = ({ target: { name, value } }) => {
-    this.setState({ [name]: value });
-  };
-
-  handleOnSubmit = e => {
+  const handleOnSubmit = e => {
     e.preventDefault();
-    const { submitForm } = this.props;
-    const { searchQuery } = this.state;
 
     if (searchQuery.trim() === '') {
       toast.warn('Warning! Search must not be empty');
 
       return;
     }
-    submitForm(searchQuery.toLowerCase());
-
-    this.resetForm();
+    submitForm(searchQuery);
+    setSearchQuery('');
   };
 
-  resetForm = () => {
-    this.setState({ searchQuery: '' });
-  };
-
-  render() {
-    const {
-      state: { searchQuery },
-      handleOnChange,
-      handleOnSubmit,
-    } = this;
-
-    return (
-      <Form onSubmit={handleOnSubmit}>
-        <SearchInput
-          type="text"
-          autoComplete="off"
-          placeholder="Search images..."
-          name="searchQuery"
-          autoFocus
-          value={searchQuery}
-          onChange={handleOnChange}
-        />
-        <IconButton type="submit" aria-label="search images">
-          <LoupeIcon width="40" height="40" />
-        </IconButton>
-      </Form>
-    );
-  }
+  return (
+    <Form onSubmit={handleOnSubmit}>
+      <SearchInput
+        type="text"
+        autoComplete="off"
+        placeholder="Search images..."
+        name="searchQuery"
+        autoFocus
+        value={searchQuery}
+        onChange={handleOnChange}
+      />
+      <IconButton type="submit" aria-label="search images">
+        <LoupeIcon width="40" height="40" />
+      </IconButton>
+    </Form>
+  );
 }
 
 SearchForm.propTypes = {
