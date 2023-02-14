@@ -1,40 +1,40 @@
-import { Component } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { ModalBackdrop, ModalImg } from './Modal.styled';
 
-export class Modal extends Component {
-  componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-    this.switchScrollBody('hidden');
-  }
+export function Modal({ image, onClose }) {
+  useEffect(() => {
+    const handleKeyDown = e => {
+      if (e.code === 'Escape') {
+        onClose();
+      }
+    };
 
-  componentWillUnmount() {
-    window.removeEventListener('keydown', this.handleKeyDown);
-    this.switchScrollBody('scroll');
-  }
-  switchScrollBody(state) {
+    window.addEventListener('keydown', handleKeyDown);
+    switchScrollBody('hidden');
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      switchScrollBody('scroll');
+    };
+  }, [onClose]);
+
+  const handleBackdropClick = e => {
+    if (e.currentTarget === e.target) {
+      onClose();
+    }
+  };
+
+  const switchScrollBody = state => {
     Object.assign(document.body.style, {
       overflowY: state,
     });
-  }
-
-  handleKeyDown = e => {
-    if (e.code === 'Escape') {
-      this.props.onClose();
-    }
   };
-  handleBackdropClick = e => {
-    if (e.currentTarget === e.target) {
-      this.props.onClose();
-    }
-  };
-  render() {
-    return (
-      <ModalBackdrop onClick={this.handleBackdropClick}>
-        <ModalImg src={this.props.image} alt="Enlarged search result" />
-      </ModalBackdrop>
-    );
-  }
+  return (
+    <ModalBackdrop onClick={handleBackdropClick}>
+      <ModalImg src={image} alt="Enlarged search result" />
+    </ModalBackdrop>
+  );
 }
 
 Modal.propTypes = {

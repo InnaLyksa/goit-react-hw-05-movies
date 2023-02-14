@@ -5,10 +5,10 @@ import { IconButton } from '../IconButton/IconButton';
 import { Form, SearchInput } from './SearchForm.styled';
 import { ReactComponent as LoupeIcon } from '../../icons/loupe.svg';
 
-export function SearchForm({ submitForm, resetPictureData }) {
+export function SearchForm({ submitForm, resetImageData }) {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const handleOnChange = ({ target: { value } }) => {
+  const handleOnChange = ({ currentTarget: { value } }) => {
     setSearchQuery(value.toLowerCase());
   };
 
@@ -17,7 +17,7 @@ export function SearchForm({ submitForm, resetPictureData }) {
 
     if (searchQuery.trim() === '') {
       toast.warn('Warning! Search must not be empty');
-      resetPictureData();
+      resetImageData();
       return;
     }
     submitForm(searchQuery);

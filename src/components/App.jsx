@@ -9,32 +9,29 @@ import { Loader } from '../components/Loader/Loader';
 import ScrollToTop from 'react-scroll-to-top';
 
 export function App() {
-  const [query, setQuery] = useState('');
+  const [imageName, setImageName] = useState('');
   const [modalImg, setModalImg] = useState(null);
-  const [pictureData, setPictureData] = useState('');
+  const [imageData, setImageData] = useState([]);
   const [status, setStatus] = useState('idle');
   const [page, setPage] = useState(1);
   const [showModal, setShowModal] = useState(false);
   const [IsLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
-    if (!query) {
+    if (!imageName) {
       return;
     }
     setStatus('pending');
 
     api
-      .pixabayApi(query, page)
+      .pixabayApi(imageName, page)
       .then(res => {
         if (res.data.hits.length === 0) {
-          toast.error(`There is no "${query}" images.`);
+          toast.error(`There is no "${imageName}" images.`);
           setStatus('idle');
           return;
         }
-        setPictureData(pictureData => [
-          ...pictureData,
-          ...mapper(res.data.hits),
-        ]);
+        setImageData(imageData => [...imageData, ...mapper(res.data.hits)]);
         setStatus('resolved');
 
         const lengthData = (page - 1) * 12 + res.data.hits.length;
@@ -49,7 +46,7 @@ export function App() {
         }
       })
       .catch(() => toast.error(`Ups! Something is wrong :(  Try again later!`));
-  }, [query, page]);
+  }, [imageName, page]);
 
   const mapper = array => {
     return array.map(({ id, webformatURL, largeImageURL }) => ({
@@ -60,6 +57,7 @@ export function App() {
   };
   const toggleModal = () => {
     setShowModal(showModal => !showModal);
+    setModalImg('');
   };
 
   const handleOpenModal = modalImg => {
@@ -68,21 +66,26 @@ export function App() {
   };
 
   const handleSearchSubmit = searchQuery => {
-    setQuery(searchQuery);
-    setPage(1);
-    setPictureData('');
-    setStatus('idle');
-    setModalImg(null);
-    setShowModal(false);
-    setIsLoadingMore(false);
+    if (searchQuery !== imageName) {
+      setImageName(searchQuery);
+      setPage(1);
+      setImageData([]);
+      setStatus('idle');
+      setModalImg(null);
+      setShowModal(false);
+      setIsLoadingMore(false);
+    } else {
+      toast.info('The new search must be different from the current search');
+    }
   };
 
   const onClickloadMore = () => {
     setPage(page => page + 1);
   };
 
-  const resetPictureData = () => {
-    setPictureData('');
+  const resetImageData = () => {
+    setImageName('');
+    setImageData([]);
     setIsLoadingMore(false);
   };
 
@@ -91,14 +94,14 @@ export function App() {
       <Searchbar>
         <SearchForm
           submitForm={handleSearchSubmit}
-          resetPictureData={resetPictureData}
+          resetImageData={resetImageData}
         />
       </Searchbar>
       {showModal && <Modal onClose={toggleModal} image={modalImg} />}
 
-      {pictureData.length > 0 && (
+      {imageData.length > 0 && (
         <GalleryImages
-          pictureData={pictureData}
+          pictureData={imageData}
           onClick={handleOpenModal}
         ></GalleryImages>
       )}
