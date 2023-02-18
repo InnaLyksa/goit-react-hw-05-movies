@@ -1,13 +1,13 @@
 import { useEffect, useState, lazy, Suspense } from 'react';
 
 import { Title } from './Home.styled';
-// import { MovieList } from '../../components/MovieList/MovieList';
+import { MovieList } from '../../components/MovieList/MovieList';
 
 import { getTrendingMovies } from '../../components/servises/servises-api';
 
 import { Loader } from 'components';
 
-const MovieList = lazy(() => import('../../components/MovieList/MovieList'));
+// const MovieList = lazy(() => import('../../components/MovieList/MovieList'));
 
 export const Home = () => {
   const [movies, setMovies] = useState([]);
