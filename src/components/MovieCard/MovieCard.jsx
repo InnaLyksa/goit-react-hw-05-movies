@@ -14,9 +14,15 @@ const MovieCard = ({
 }) => {
   const imageUrl = `https://image.tmdb.org/t/p/w300/${poster_path}`;
 
+  const DEFAULT_FOTO =
+    'http://placehold.it/300x450.png/aaa698/ffffff&text=No image((';
+
   return (
     <Wrapper>
-      <img src={imageUrl} alt={original_title} loading="lazy" />
+      {poster_path && (
+        <img src={imageUrl} alt={original_title} loading="lazy" />
+      )}
+      {!poster_path && <img src={DEFAULT_FOTO} alt={original_title} />}
       <div>
         <MovieName>
           {original_title} ({new Date(release_date).getFullYear()})
@@ -30,6 +36,13 @@ const MovieCard = ({
     </Wrapper>
   );
 };
+
+// {
+//   poster_path && <Poster src={`${POSTER_URL}${poster_path}`} alt={title} />;
+// }
+// {
+//   !poster_path && <Poster src={noPoster} alt={title} />;
+// }
 
 MovieCard.propTypes = {
   movieInfo: PropTypes.shape({

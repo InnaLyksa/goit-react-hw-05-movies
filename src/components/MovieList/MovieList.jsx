@@ -7,14 +7,14 @@ import { POSTER_URL } from '../../components/servises/poster-url';
 const DEFAULT_FOTO =
   'http://placehold.it/120x67.png/aaa698/ffffff&text=No image((';
 
-export const MovieList = ({ movies }) => {
+const MovieList = ({ movies }) => {
   const location = useLocation();
 
   return (
     <ul>
       {movies.map(({ title, id, backdrop_path }) => (
         <StyledItem key={id}>
-          <StyledLink to={`${id}`} state={{ from: location }}>
+          <StyledLink to={`/movies/${id}`} state={{ from: location }}>
             {backdrop_path && (
               <MovieImg src={`${POSTER_URL}${backdrop_path}`} alt={title} />
             )}
@@ -30,3 +30,5 @@ export const MovieList = ({ movies }) => {
 MovieList.propTypes = {
   movies: PropTypes.array.isRequired,
 };
+
+export default MovieList;

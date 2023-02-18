@@ -10,7 +10,7 @@ export const StyledSearchbar = styled.header`
   align-items: center;
   width: 100vw;
 
-  padding: 25px;
+  padding: 25px 25px 25px 40px;
 
   /* margin-bottom: 12px; */
   background-color: #ebe3c8;
@@ -20,7 +20,7 @@ export const StyledSearchbar = styled.header`
 
 export const StyledLink = styled(NavLink)`
   text-decoration: none;
-  font-size: 24px;
+  font-size: 32px;
   color: black;
   font-weight: bold;
 

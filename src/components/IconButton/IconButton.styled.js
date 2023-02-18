@@ -6,7 +6,7 @@ export const IconBtn = styled.button`
   border: none;
 
   font-size: inherit;
-  background-color: transparent;
+
   cursor: pointer;
 
   display: inline-flex;
