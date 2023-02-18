@@ -1,4 +1,4 @@
-import { useEffect, useState, lazy, Suspense } from 'react';
+import { useEffect, useState, Suspense } from 'react';
 
 import { Title } from './Home.styled';
 import { MovieList } from '../../components/MovieList/MovieList';
