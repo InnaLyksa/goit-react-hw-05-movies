@@ -1,14 +1,15 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { SearchMoviesFetch } from '../../components/servises/servises-api';
 import { SectionSearch, Form, SearchInput } from './Movies.styled';
-import { MovieList } from '../../components/MovieList/MovieList';
 
 import { IconButton } from '../../components/IconButton/IconButton';
 import { ReactComponent as LoupeIcon } from '../../icons/loupe.svg';
 import { Loader } from 'components';
+
+const MovieList = lazy(() => import('../../components/MovieList/MovieList'));
 
 export const Movies = () => {
   const [name, setName] = useState('');
@@ -28,17 +29,24 @@ export const Movies = () => {
     if (name.trim() === '') {
       toast.warn('Enter something');
       return;
+    } else if (name !== query) {
+      // setQuery(search);
+      setSearchParams({ query: name });
+    } else {
+      toast.warn('The new search must be different from the current search');
     }
 
-    setSearchParams(query !== '' ? { query: name } : {});
+    // setSearchParams(query !== '' ? { query: name } : {});
 
     event.target.reset();
   };
 
   useEffect(() => {
-    if (query) {
-      SearchMoviesFetch(query).then(setMovies);
-    }
+    if (!query) return;
+
+    SearchMoviesFetch(query).then(res => {
+      setMovies(res);
+    });
   }, [query]);
 
   return (
@@ -62,21 +70,6 @@ export const Movies = () => {
         {movies && <MovieList movies={movies} />}
       </Suspense>
       <ToastContainer autoClose={3000} />
-
-      {/* <ul>
-        {movies &&
-          movies.map(({ title, id, backdrop_path }) => (
-            <StyledItem key={id}>
-              <StyledLink to={`${id}`} state={{ from: location }}>
-                {backdrop_path && (
-                  <MovieImg src={`${POSTER_URL}${backdrop_path}`} alt={title} />
-                )}
-                {!backdrop_path && <MovieImg src={DEFAULT_FOTO} alt={title} />}
-                {title}
-              </StyledLink>
-            </StyledItem>
-          ))}
-      </ul> */}
     </>
   );
 };
