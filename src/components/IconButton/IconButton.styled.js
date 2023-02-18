@@ -14,7 +14,7 @@ export const IconBtn = styled.button`
   justify-content: center;
   transition: all 250ms cubic-bezier(0.4, 0, 0.2, 1);
   &:hover {
-    fill: #fff;
+    fill: orange;
     transform: scale(1.2);
   }
 `;

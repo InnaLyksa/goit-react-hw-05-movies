@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-04-images",
+  "name": "goit-react-hw-05-movies",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://InnaLyksa.github.io/goit-react-hw-04-images/",
+  "homepage": "https://InnaLyksa.github.io/goit-react-hw-05-movies/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.16.3",
     "@testing-library/react": "^12.1.4",
@@ -10,7 +10,9 @@
     "nanoid": "^4.0.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-icons": "^4.7.1",
     "react-loader-spinner": "^5.3.4",
+    "react-router-dom": "^6.8.1",
     "react-scripts": "5.0.1",
     "react-scroll-to-top": "^3.0.0",
     "react-toastify": "^9.1.1",
