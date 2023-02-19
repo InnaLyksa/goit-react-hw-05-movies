@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useLocation } from 'react-router-dom';
 
 import { StyledLink, StyledItem, MovieImg } from './MovieList.styled';
-import { POSTER_URL } from '../../components/servises/poster-url';
+import { POSTER_URL } from '../../servises/poster-url';
 
 const DEFAULT_FOTO =
   'http://placehold.it/120x67.png/aaa698/ffffff&text=No image((';

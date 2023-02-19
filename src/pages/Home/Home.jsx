@@ -1,13 +1,13 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { getTrendingMovies } from '../../components/servises/servises-api';
+import { getTrendingMovies } from '../../servises/servises-api';
 import { Loader } from '../../components/Loader/Loader';
 import { Title } from './Home.styled';
 
 const MovieList = lazy(() => import('../../components/MovieList/MovieList'));
 
-export const Home = () => {
+const Home = () => {
   const [trendMovies, setTrendMovies] = useState(null);
 
   useEffect(() => {
@@ -26,3 +26,4 @@ export const Home = () => {
     </>
   );
 };
+export default Home;

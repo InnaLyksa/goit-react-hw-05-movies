@@ -1,9 +1,10 @@
-import { MovieReviewsFetch } from '../../components/servises/servises-api';
-import { useEffect, useState } from 'react';
+import { MovieReviewsFetch } from '../../servises/servises-api';
+import { useEffect, useState, Suspense } from 'react';
 import { useParams } from 'react-router-dom';
 import { List, ReviewsItem, ReviewerAuthor } from './Reviews.styled';
+import { Loader } from '../Loader/Loader';
 
-export const Reviews = id => {
+const Reviews = id => {
   const [review, setReview] = useState([]);
   const { movieId } = useParams();
 
@@ -15,15 +16,19 @@ export const Reviews = id => {
     return <h2>There is no reviews</h2>;
   } else {
     return (
-      <List>
-        {review &&
-          review.map(({ id, author, content }) => (
-            <ReviewsItem key={id}>
-              <ReviewerAuthor>Author: {author}</ReviewerAuthor>
-              <p>{content}</p>
-            </ReviewsItem>
-          ))}
-      </List>
+      <Suspense fallback={<Loader />}>
+        <List>
+          {review &&
+            review.map(({ id, author, content }) => (
+              <ReviewsItem key={id}>
+                <ReviewerAuthor>Author: {author}</ReviewerAuthor>
+                <p>{content}</p>
+              </ReviewsItem>
+            ))}
+        </List>
+      </Suspense>
     );
   }
 };
+
+export default Reviews;

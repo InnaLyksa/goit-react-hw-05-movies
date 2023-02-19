@@ -4,7 +4,7 @@ export const IconBtn = styled.button`
   margin: 0;
   padding: 10px;
   border: none;
-
+  background-color: transparent;
   font-size: inherit;
 
   cursor: pointer;

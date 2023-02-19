@@ -2,10 +2,9 @@ import { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { SearchMoviesFetch } from '../../components/servises/servises-api';
+import { SearchMoviesFetch } from '../../servises/servises-api';
 import { SectionSearch, Form, SearchInput } from './Movies.styled';
-
-import { IconButton } from '../../components/IconButton/IconButton';
+import { IconButton } from '../../components/index';
 import { ReactComponent as LoupeIcon } from '../../icons/loupe.svg';
 import { Loader } from 'components';
 
@@ -22,18 +21,18 @@ export const Movies = () => {
     if (!query) {
       return;
     }
-    SearchMoviesFetch(query).then(res => setMoviesByQuery(res));
+    SearchMoviesFetch(query)
+      .then(res => setMoviesByQuery(res))
+      .catch(() => toast.error('Sorry, there are no movies for this search'));
   }, [query]);
 
   const handleSubmit = e => {
     e.preventDefault();
 
-    if (searchQuery === '') {
+    if (searchQuery.trim() === '') {
       toast.warn('Enter something');
-      // setMoviesByQuery([]);
       return;
     }
-
     if (searchQuery !== query) {
       setSearchQuery(searchQuery);
       setSearchParams({ query: searchQuery });
@@ -45,7 +44,7 @@ export const Movies = () => {
   };
 
   const handleInputChange = e => {
-    setSearchQuery(e.target.value.trim());
+    setSearchQuery(e.target.value.toLowerCase());
   };
 
   return (
@@ -72,3 +71,4 @@ export const Movies = () => {
     </>
   );
 };
+export default Movies;

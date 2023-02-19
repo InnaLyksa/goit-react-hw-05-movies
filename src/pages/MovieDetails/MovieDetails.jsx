@@ -1,12 +1,12 @@
-import { MovieDetailsFetch } from '../../components/servises/servises-api';
-import { lazy, Suspense, useEffect, useState } from 'react';
+import { MovieDetailsFetch } from '../../servises/servises-api';
+import { Suspense, useEffect, useState, lazy } from 'react';
 import { Outlet, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { GoBackBtn, MoreInfo, MoreInfoTitle } from './MovieDetails.styled';
 import { StyledLink } from '../MovieDetails/MovieDetails.styled';
 import { TfiArrowLeft } from 'react-icons/tfi';
 import { Loader } from '../../components/Loader/Loader';
 
-const MovieCard = lazy(() => import('components/MovieCard/MovieCard'));
+const MovieCard = lazy(() => import('../../components/MovieCard/MovieCard'));
 
 const MovieDetails = () => {
   const { movieId } = useParams();
@@ -54,8 +54,7 @@ const MovieDetails = () => {
           </li>
         </ul>
       </MoreInfo>
-
-      <Suspense fallback={<loader />}>
+      <Suspense fallback={<Loader />}>
         <Outlet />
       </Suspense>
     </>
