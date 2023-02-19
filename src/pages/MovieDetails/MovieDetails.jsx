@@ -4,6 +4,7 @@ import { Outlet, useLocation, useParams, useNavigate } from 'react-router-dom';
 import { GoBackBtn, MoreInfo, MoreInfoTitle } from './MovieDetails.styled';
 import { StyledLink } from '../MovieDetails/MovieDetails.styled';
 import { TfiArrowLeft } from 'react-icons/tfi';
+import { Loader } from '../../components/Loader/Loader';
 
 const MovieCard = lazy(() => import('components/MovieCard/MovieCard'));
 
@@ -28,7 +29,7 @@ const MovieDetails = () => {
         </GoBackBtn>
 
         {movieDetails && (
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={<Loader />}>
             <MovieCard movieInfo={movieDetails} />
           </Suspense>
         )}
@@ -54,7 +55,7 @@ const MovieDetails = () => {
         </ul>
       </MoreInfo>
 
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<loader />}>
         <Outlet />
       </Suspense>
     </>

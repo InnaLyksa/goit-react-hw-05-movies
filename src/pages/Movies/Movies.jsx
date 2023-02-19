@@ -12,47 +12,46 @@ import { Loader } from 'components';
 const MovieList = lazy(() => import('../../components/MovieList/MovieList'));
 
 export const Movies = () => {
-  const [name, setName] = useState('');
-  const [movies, setMovies] = useState([]);
-
+  const [moviesByQuery, setMoviesByQuery] = useState(null);
+  const [searchQuery, setSearchQuery] = useState('');
   const [searchParams, setSearchParams] = useSearchParams();
 
   const query = searchParams.get('query');
 
-  const handleInputChange = event => {
-    setName(event.currentTarget.value.toLowerCase());
-  };
-
-  const handelSubmit = event => {
-    event.preventDefault();
-
-    if (name.trim() === '') {
-      toast.warn('Enter something');
+  useEffect(() => {
+    if (!query) {
       return;
-    } else if (name !== query) {
-      // setQuery(search);
-      setSearchParams({ query: name });
-    } else {
-      toast.warn('The new search must be different from the current search');
+    }
+    SearchMoviesFetch(query).then(res => setMoviesByQuery(res));
+  }, [query]);
+
+  const handleSubmit = e => {
+    e.preventDefault();
+
+    if (searchQuery === '') {
+      toast.warn('Enter something');
+      // setMoviesByQuery([]);
+      return;
     }
 
-    // setSearchParams(query !== '' ? { query: name } : {});
-
-    event.target.reset();
+    if (searchQuery !== query) {
+      setSearchQuery(searchQuery);
+      setSearchParams({ query: searchQuery });
+    } else {
+      toast.warn('The new search must be different from the current search');
+      setSearchQuery('');
+      e.target.reset();
+    }
   };
 
-  useEffect(() => {
-    if (!query) return;
-
-    SearchMoviesFetch(query).then(res => {
-      setMovies(res);
-    });
-  }, [query]);
+  const handleInputChange = e => {
+    setSearchQuery(e.target.value.trim());
+  };
 
   return (
     <>
       <SectionSearch>
-        <Form onSubmit={handelSubmit}>
+        <Form onSubmit={handleSubmit}>
           <SearchInput
             type="text"
             autoComplete="off"
@@ -67,7 +66,7 @@ export const Movies = () => {
         </Form>
       </SectionSearch>
       <Suspense fallback={<Loader />}>
-        {movies && <MovieList movies={movies} />}
+        {moviesByQuery && <MovieList movies={moviesByQuery} />}
       </Suspense>
       <ToastContainer autoClose={3000} />
     </>

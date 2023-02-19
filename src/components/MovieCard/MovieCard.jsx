@@ -37,13 +37,6 @@ const MovieCard = ({
   );
 };
 
-// {
-//   poster_path && <Poster src={`${POSTER_URL}${poster_path}`} alt={title} />;
-// }
-// {
-//   !poster_path && <Poster src={noPoster} alt={title} />;
-// }
-
 MovieCard.propTypes = {
   movieInfo: PropTypes.shape({
     original_title: PropTypes.string.isRequired,
