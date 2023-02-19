@@ -1,7 +1,7 @@
 import { useState, useEffect, Suspense, lazy } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
+
 import { SearchMoviesFetch } from '../../servises/servises-api';
 import { SectionSearch, Form, SearchInput } from './Movies.styled';
 import { IconButton } from '../../components/index';
@@ -37,10 +37,10 @@ export const Movies = () => {
       setSearchQuery(searchQuery);
       setSearchParams({ query: searchQuery });
     } else {
-      toast.warn('The new search must be different from the current search');
-      setSearchQuery('');
-      e.target.reset();
+      toast.info('The new search must be different from the current search');
     }
+    e.currentTarget.reset();
+    setSearchQuery('');
   };
 
   const handleInputChange = e => {
@@ -67,7 +67,6 @@ export const Movies = () => {
       <Suspense fallback={<Loader />}>
         {moviesByQuery && <MovieList movies={moviesByQuery} />}
       </Suspense>
-      <ToastContainer autoClose={3000} />
     </>
   );
 };

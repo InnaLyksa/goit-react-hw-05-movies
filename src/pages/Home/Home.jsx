@@ -1,6 +1,5 @@
 import { useState, useEffect, lazy, Suspense } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { getTrendingMovies } from '../../servises/servises-api';
 import { Loader } from '../../components/Loader/Loader';
 import { Title } from './Home.styled';
@@ -22,7 +21,6 @@ const Home = () => {
       <Suspense fallback={<Loader />}>
         {trendMovies && <MovieList movies={trendMovies} />}
       </Suspense>
-      <ToastContainer autoClose={3000} />
     </>
   );
 };
